@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini CRM - Login</title>
+    <title>XPerts CRM</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
@@ -11,7 +11,7 @@
     <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-800">Mini CRM</h1>
+            <h1 class="text-2xl font-bold text-gray-800">XPerts CRM</h1>
             <p class="text-gray-500 text-sm mt-1">Sign in to your account</p>
         </div>
 

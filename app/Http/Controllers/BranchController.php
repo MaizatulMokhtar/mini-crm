@@ -4,14 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Company;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BranchController extends Controller
 {
     public function index()
     {
-        $branches = Branch::with('company')->latest()->paginate(10);
-        $companies = Company::all();
+        $user = Auth::user();
+
+        if ($user->role_id == Role::SUPERADMIN) {
+            $branches = Branch::with('company')->latest()->paginate(10);
+            $companies = Company::all();
+        } elseif ($user->role_id == Role::COMPANY) {
+            $company = Company::where('user_id', $user->id)->first();
+            $branches = Branch::with('company')
+                ->where('company_id', $company->id)
+                ->latest()->paginate(10);
+            $companies = Company::where('user_id', $user->id)->get(); // collection for the dropdown
+        } elseif ($user->role_id == Role::EMPLOYEE) {
+            $companies = Company::where('company_id', $user->employee->branch->company->id);
+            $branches = Branch::with('company')
+                ->where('id', $user->employee->branch_id)
+                ->latest()->paginate(10);
+        }
+
         return view('branch.index', compact('branches', 'companies'));
     }
 
@@ -24,19 +42,11 @@ class BranchController extends Controller
             'phone'      => 'nullable|string|max:20',
         ]);
 
-        // If is_hq is checked, unset existing HQ for that company
-        if ($request->is_hq) {
-            Branch::where('company_id', $request->company_id)
-                  ->where('is_hq', true)
-                  ->update(['is_hq' => false]);
-        }
-
         Branch::create([
             'company_id' => $request->company_id,
             'name'       => $request->name,
             'email'      => $request->email,
             'phone'      => $request->phone,
-            'is_hq'      => $request->boolean('is_hq'),
         ]);
 
         return redirect()->route('branch.index')->with('success', 'Branch created successfully.');
@@ -51,24 +61,16 @@ class BranchController extends Controller
             'phone'      => 'nullable|string|max:20',
         ]);
 
-        if ($request->is_hq) {
-            Branch::where('company_id', $request->company_id)
-                ->where('id', '!=', $branch->id)
-                ->where('is_hq', true)
-                ->update(['is_hq' => false]);
-        }
-
         $branch->update([
             'company_id' => $request->company_id,
             'name'       => $request->name,
             'email'      => $request->email,
             'phone'      => $request->phone,
-            'is_hq'      => $request->boolean('is_hq'),
         ]);
 
         return redirect()->route('branch.index')->with('success', 'Branch updated successfully.');
     }
-    
+
     public function destroy(Branch $branch)
     {
         $branch->delete();

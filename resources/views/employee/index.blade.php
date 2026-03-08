@@ -240,7 +240,7 @@
                                 <option value="">Select Branch</option>
                                 @foreach($branches as $branch)
                                 <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
-                                    {{ $branch->name }} {{ $branch->is_hq ? '(HQ)' : '' }}
+                                    {{ $branch->name }}
                                 </option>
                                 @endforeach
                             </select>
@@ -345,7 +345,7 @@
                                 @foreach($branches as $branch)
                                 <option value="{{ $branch->id }}"
                                     :selected="editEmployee.branch_id == '{{ $branch->id }}'">
-                                    {{ $branch->name }} {{ $branch->is_hq ? '(HQ)' : '' }}
+                                    {{ $branch->name }}
                                 </option>
                                 @endforeach
                             </select>
