@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini CRM</title>
+    <title>XPerts CRM</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 min-h-screen flex">
@@ -13,7 +13,7 @@
         
         <!-- Logo -->
         <div class="px-5 py-4 border-b border-gray-100">
-            <h1 class="text-gray-900 font-bold text-base tracking-tight">Mini CRM</h1>
+            <h1 class="text-gray-900 font-bold text-base tracking-tight">XPerts CRM</h1>
         </div>
 
         <!-- Nav Links -->

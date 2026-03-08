@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Branch;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class CompanyController extends Controller
 {
@@ -103,5 +106,50 @@ class CompanyController extends Controller
         $company->user()->delete();
         $company->delete();
         return redirect()->route('company.index')->with('success', 'Company deleted.');
+    }
+
+    //API Company Details
+    public function getCompanyDetails(Request $request)
+    {
+        Log::info('Starting the API connection');
+
+        $request->validate([
+            'company_name' => 'nullable|string',
+        ]);
+
+        $company = Company::where('name', 'LIKE', '%' . $request->company_name . '%')->first();
+       
+        if (!$company) {
+            Log::info('Company not found');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Company not found',
+            ]);
+        }
+
+        $branches = Branch::where('company_id', $company->id)->get();
+        if ($branches->isEmpty()) {
+            Log::info('Branch not found');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Branch not found for company ' . $company->name,
+            ]);
+        }
+        $employees = Employee::where('company_id', $company->id)->get();
+        if ($employees->isEmpty()) {
+            Log::info('Employee not found');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Employee not found for company ' . $company->name,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'companies' => $company,
+            'branches' => $branches,
+            'employees_count' => $employees->count(),
+            'employees' => $employees,
+        ]); 
     }
 }
