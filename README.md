@@ -26,3 +26,33 @@ Credentials of Xperts CRM assessment
     Role: Employee
         - email: maizatulmokhtar85@another.com
         - password: password
+
+## Screenshots
+
+### 1. API Response  
+  - ![API Response 1](screenshots/API-1.png)
+
+- ![API Response 2](screenshots/API-2.png)
+
+### 2. System Interface
+
+- Super Admin Dashboard Overview
+  ![Superadmin Dashboard](screenshots/SUPERADMIN_Dashboard-Overview.png)
+
+- Super Admin Company Management
+  ![Company Management](screenshots/SUPERADMIN_Company-Management.png)
+
+- Add Company
+  ![Add Company](screenshots/SUPERADMIN_Add-Company.png)
+
+- Company Dashboard Overview
+  ![Company Dashboard](screenshots/COMPANY_Dashboard-Overview.png)
+
+- Employee Management
+  ![Employee Management](screenshots/COMPANY_Employee-Management.png)
+
+- Add Employee
+  ![Add Employee](screenshots/COMPANY_Add-Employee.png)
+
+- Edit Employee
+  ![Edit Employee](screenshots/COMPANY_Edit-Employee.png)
